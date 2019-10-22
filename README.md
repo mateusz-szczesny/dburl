@@ -1,3 +1,6 @@
+
+[![Build Status](https://travis-ci.com/mateusz-szczesny/dburl.svg?branch=master)](https://travis-ci.com/mateusz-szczesny/dburl)
+
 # DB Url
 
 Package dburl allows you to configure your database configuration based on DATABASE_URL environment variable.
