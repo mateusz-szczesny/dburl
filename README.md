@@ -1,5 +1,6 @@
 
 [![Build Status](https://travis-ci.com/mateusz-szczesny/dburl.svg?branch=master)](https://travis-ci.com/mateusz-szczesny/dburl)
+[![Build Status](https://codecov.io/gh/mateusz-szczesny/dburl/branch/master/graphs/badge.svg)](https://codecov.io/gh/mateusz-szczesny/dburl)
 
 # DB Url
 
