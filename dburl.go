@@ -2,6 +2,7 @@ package dburl
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -25,8 +26,8 @@ const (
 	SQLITE string = "sqlite"
 	// MSSQL is dialect name for mssql database engine
 	MSSQL string = "mssql"
-	// POSTGRESQL is dialect name for postgresql database engine
-	POSTGRESQL = "postgres"
+	// POSTGRES is dialect name for postgres database engine
+	POSTGRES = "postgres"
 )
 
 var (
@@ -46,7 +47,7 @@ func Config(env string) (*DBConfig, error) {
 
 	url, ok := os.LookupEnv(env)
 	if ok {
-		err := config.parse(url)
+		err := config.Parse(url)
 		if err != nil {
 			return nil, err
 		}
@@ -57,7 +58,8 @@ func Config(env string) (*DBConfig, error) {
 	return nil, ErrDatabaseURLNotFound
 }
 
-func (d *DBConfig) parse(url string) error {
+// Parse allows to fill configuration structure with details from parameter
+func (d *DBConfig) Parse(url string) error {
 	if url == "sqlite://:memory:" {
 		d.Dialect = SQLITE
 		d.Path = ":memory:"
@@ -67,7 +69,7 @@ func (d *DBConfig) parse(url string) error {
 	s := strings.Split(url, "://")
 	d.Dialect = s[0]
 	switch d.Dialect {
-	case MSSQL, POSTGRESQL:
+	case MSSQL, POSTGRES:
 		accessData := strings.FieldsFunc(s[1], func(r rune) bool {
 			return r == ':' || r == '@' || r == '/'
 		})
@@ -89,4 +91,34 @@ func (d *DBConfig) parse(url string) error {
 	default:
 		return ErrDatabaseEngineNotSupported
 	}
+}
+
+// GetConnectionString returns connection string for specified database config
+func (d *DBConfig) GetConnectionString() string {
+	var connection string
+	switch d.Dialect {
+	case MSSQL:
+		connection = getMSSQLConnectionString(d)
+	case SQLITE:
+		connection = getSQLITEConnectionString(d)
+	case POSTGRES:
+		connection = getPostgresConnectionString(d)
+	default:
+		connection = ""
+	}
+	return connection
+}
+
+func getMSSQLConnectionString(d *DBConfig) string {
+	return fmt.Sprintf("sqlserver://%s:%s@%s:%d?database=%s",
+		d.User, d.Password, d.Host, d.Port, d.DBName)
+}
+
+func getSQLITEConnectionString(d *DBConfig) string {
+	return fmt.Sprintf("%s", d.Path)
+}
+
+func getPostgresConnectionString(d *DBConfig) string {
+	return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+		d.Host, d.Port, d.User, d.Password, d.DBName)
 }
