@@ -44,4 +44,4 @@ Provide a custom environment variable name
 | :------------ | :------------                              |
 | PostgreSQL    | `postgres://USER:PASSWORD@HOST:PORT/NAME`  |
 | MSSQL         | `mssql://USER:PASSWORD@HOST:PORT/NAME`     |
-| SQLite        | `sqlite:///path/to/some/database.db`       |
+| SQLite        | `sqlite3:///path/to/some/database.db`       |

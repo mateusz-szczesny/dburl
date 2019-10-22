@@ -71,35 +71,35 @@ func TestConfig(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "sqlite - valid",
+			name: "sqlite3 - valid",
 			args: args{
 				env: dburl.DefaultEnv,
 			},
 			envVars: []envVariable{
 				{
 					key:   dburl.DefaultEnv,
-					value: "sqlite:///some/path/to/database.db",
+					value: "sqlite3:///some/path/to/database.db",
 				},
 			},
 			want: &dburl.DBConfig{
-				Dialect: "sqlite",
+				Dialect: "sqlite3",
 				Path:    "/some/path/to/database.db",
 			},
 			wantErr: false,
 		},
 		{
-			name: "sqlite in memory - valid",
+			name: "sqlite3 in memory - valid",
 			args: args{
 				env: dburl.DefaultEnv,
 			},
 			envVars: []envVariable{
 				{
 					key:   dburl.DefaultEnv,
-					value: "sqlite://:memory:",
+					value: "sqlite3://:memory:",
 				},
 			},
 			want: &dburl.DBConfig{
-				Dialect: "sqlite",
+				Dialect: "sqlite3",
 				Path:    ":memory:",
 			},
 			wantErr: false,
@@ -195,17 +195,17 @@ func TestDBConfig_GetConnectionString(t *testing.T) {
 			want: "sqlserver://USER:PASSWORD@HOST:5432?database=NAME",
 		},
 		{
-			name: "sqlite",
+			name: "sqlite3",
 			d: &dburl.DBConfig{
-				Dialect: "sqlite",
+				Dialect: "sqlite3",
 				Path:    "/some/path/to/database.db",
 			},
 			want: "/some/path/to/database.db",
 		},
 		{
-			name: "sqlite in memory",
+			name: "sqlite3 in memory",
 			d: &dburl.DBConfig{
-				Dialect: "sqlite",
+				Dialect: "sqlite3",
 				Path:    ":memory:",
 			},
 			want: ":memory:",

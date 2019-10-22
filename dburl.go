@@ -22,8 +22,8 @@ type DBConfig struct {
 const (
 	// DefaultEnv is default env varaible name
 	DefaultEnv string = "DATABASE_URL"
-	// SQLITE is dialect name for sqlite database engine
-	SQLITE string = "sqlite"
+	// SQLITE is dialect name for sqlite3 database engine
+	SQLITE string = "sqlite3"
 	// MSSQL is dialect name for mssql database engine
 	MSSQL string = "mssql"
 	// POSTGRES is dialect name for postgres database engine
@@ -60,7 +60,7 @@ func Config(env string) (*DBConfig, error) {
 
 // Parse allows to fill configuration structure with details from parameter
 func (d *DBConfig) Parse(url string) error {
-	if url == "sqlite://:memory:" {
+	if url == "sqlite3://:memory:" {
 		d.Dialect = SQLITE
 		d.Path = ":memory:"
 		return nil
