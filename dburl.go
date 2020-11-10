@@ -115,7 +115,7 @@ func getMSSQLConnectionString(d *DBConfig) string {
 }
 
 func getSQLITEConnectionString(d *DBConfig) string {
-	return fmt.Sprintf("%s", d.Path)
+	return d.Path
 }
 
 func getPostgresConnectionString(d *DBConfig) string {
